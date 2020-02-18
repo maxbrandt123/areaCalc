@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Area Calculator</title>
+
+    <style>
+
+        /* makes error messages red and hidden (they are made visible if need be */
+        .error {
+        color: red;
+        visibility: hidden;
+        }
+
+        /* makes the text in paragraphs Navy */
+        p {
+        color: Navy;
+        }
+
+        /* makes the background color light Cyan */
+        body {background-color: LightCyan;}
+
+    </style>
+
+</head>
+
+<script language="javascript" type="text/javascript">
+
+//defines variables for future reference for future reference, multiplication, etc.
+var heightOk = new Boolean(false);
+var widthOk = new Boolean(false);
+var unitOk = new Boolean(true);
+var area = 0;
+var unitChosen = '';
+var inchesMultiplier = 1;
+var feetMultiplier = 12;
+var yardsMultiplier = 36;
+var heightValueInInches = 1;
+var widthValueInInches = 1;
+var areaInInches = 1;
+var area = 0;
+var decimals = 2;
+
+//starts my function to find the area; calculate
+function calculate() {
+
+//sets area equal to 0
+area = 0;
+
+// Get values the user input - PH
+height = Number(document.calculator.number1.value);
+width = Number(document.calculator.number2.value);
+
+// Validate that user inputs are ok
+//If the user input for height is invalid, display error indication
+if (height <= 0){
+    document.getElementById('height').style.borderColor = "red";
+    document.getElementById("heightError").style.visibility = "visible";
+
+//If the user input for height is valid, set the border of the input box green and keep the error message hidden
+} else {
+    document.getElementById('height').style.borderColor = "green";
+    document.getElementById("heightError").style.visibility = "hidden";
+    var heightOk = true;
+}
+
+//If the user input for width is invalid, display error indication
+if (width <= 0){
+    document.getElementById('width').style.borderColor = "red";
+    document.getElementById("widthError").style.visibility = "visible";
+
+//If the user input for width is valid, set the border of the input box green and keep the error message hidden
+} else {
+    document.getElementById("widthError").style.visibility = "hidden";
+    document.getElementById('width').style.borderColor = "green";
+    var widthOk = true;
+    }
+
+//if the user doesnt select an output unit, show an error message
+var unit = document.getElementById("outputUnit");
+    if (unit.options[unit.selectedIndex].value == 'selectunit') {
+          var unitOk = false;
+          document.getElementById("outputUnitError").style.visibility = "visible"
+}
+
+//if the user selects 'inches' as the output unit, make it the chosen unit and make unitOk true
+ if (unit.options[unit.selectedIndex].value == 'inches') {
+    var unitOk = true;
+    var unitChosen = "inches";
+
+    }
+
+    //if the user selects 'feet' as the output unit, make it the chosen unit and make unitOk true
+   if (unit.options[unit.selectedIndex].value == 'feet') {
+    var unitOk = true;
+    var unitChosen = "feet";
+    }
+
+    //if the user selects 'yards' as the output unit, make it the chosen unit and make unitOk true
+   if (unit.options[unit.selectedIndex].value == 'yards') {
+    var unitOk = true;
+    var unitChosen = "yards";
+
+    }
+
+//if the user doesnt select a height unit, show an error message
+var unit = document.getElementById("heightUnit");
+    if (unit.options[unit.selectedIndex].value == 'selectunit') {
+    document.getElementById("heightUnitError").style.visibility = "visible"
+          }
+
+//if 'inches' is selected as the height unit, set height equal to the total number of inches in the height
+    if (unit.options[unit.selectedIndex].value == 'inches') {
+        heightValueInInches = height;
+        }
+//if 'feet' is selected as the height unit, set height equal to the total number of feet*12 in the height (12 inches in each foot)
+    if (unit.options[unit.selectedIndex].value == 'feet') {
+        heightValueInInches = height * feetMultiplier;
+        }
+
+//if 'yards' is selected as the height unit, set height equal to the total number of yards*36 in the height (36 inches in each yard)
+     if (unit.options[unit.selectedIndex].value == 'yards') {
+        heightValueInInches = height * yardsMultiplier;
+}
+
+//if the user doesnt select a width unit, show an error message
+var unit = document.getElementById("widthUnit");
+    if (unit.options[unit.selectedIndex].value == 'selectunit') {
+    document.getElementById("widthUnitError").style.visibility = "visible"
+          }
+
+//if 'inches' is selected as the width unit, set width equal to the total number of inches in the width
+    if (unit.options[unit.selectedIndex].value == 'inches') {
+        widthValueInInches = width;
+        }
+
+//if 'feet' is selected as the width unit, set width equal to the total number of feet*12 in the width (12 inches in each foot)
+    if (unit.options[unit.selectedIndex].value == 'feet') {
+        widthValueInInches = width * feetMultiplier;
+        }
+
+//if 'yards' is selected as the width unit, set width equal to the total number of yards*36 in the width (36 inches in each yard)
+     if (unit.options[unit.selectedIndex].value == 'yards') {
+        widthValueInInches = width * yardsMultiplier;
+}
+
+//get the total number of square inches by multiplying the number if inches in the height by the number of inches in the width
+areaInInches = heightValueInInches*widthValueInInches;
+
+//This algorithm is innacurate with numbers under 190 mathmatically, so I divided the area in inches by 12 to fix the issue
+if (areaInInches >= 190) {
+    areaInInches = areaInInches/12
+}
+
+// if there is a valid height, width and unit:
+if (heightOk == true && widthOk == true && unitOk == true) {
+
+    //if the output unit is inches, calculate how many inches there are and display a clear message
+    var unit = document.getElementById("outputUnit");
+        if (unit.options[unit.selectedIndex].value == 'inches') {
+        area = 0;
+        area = areaInInches;
+        unit_chosen = 'inches'
+        document.getElementById("answer").innerHTML = area.toFixed(decimals) + " " + unitChosen + '2'.sup();
+    }
+
+    //if the output unit is feet, calculate how many feet there are and display a clear message
+        if (unit.options[unit.selectedIndex].value == 'feet') {
+        area = 0;
+        area = (areaInInches/12);
+        unit_chosen = 'feet'
+        document.getElementById("answer").innerHTML = area.toFixed(decimals) + " " + unitChosen + '2'.sup();
+    }
+
+    //if the output unit is yards, calculate how many feet there are and display a clear message
+    if (unit.options[unit.selectedIndex].value == 'yards') {
+        area = 0;
+        area = (areaInInches/36);
+        unit_chosen = 'yards'
+        document.getElementById("answer").innerHTML = area.toFixed(decimals) + " " + unitChosen + '2'.sup();
+    }
+
+    //if the user didn't select an output unit, display an error.
+    if (unit.options[unit.selectedIndex].value == 'selectunit') {
+    document.getElementById("outputUnitError").style.visibility = "visible";
+    }
+
+//if the requirments aren't met, display an error message
+} else{
+document.getElementById("overallError").style.visibility = "visible";
+}
+
+//read how many decimal places the user wants thier answer to go to
+var unit = document.getElementById("decimalPlaces");
+
+        //if the user selects 'One', give the answer to the tenth decimal
+        if (unit.options[unit.selectedIndex].value == 'One') {
+        decimals = 1;
+}
+
+        //if the user selects 'Two', give the answer to the hundredth decimal
+        if (unit.options[unit.selectedIndex].value == 'Two') {
+        decimals = 2;
+}
+
+        //if the user selects 'Three', give the answer to the thousandth decimal
+        if (unit.options[unit.selectedIndex].value == 'Three') {
+            decimals = 3;
+}
+
+        //if the user selects 'Four', give the answer to the ten-thousandth decimal
+        if (unit.options[unit.selectedIndex].value == 'Four') {
+            decimals = 4;
+}
+}
+
+</script>
+
+</head>
+
+<body>
+
+<!--tell the user what they can do on this website and give them a little idea of how much fun they will have doing it-->
+<p>Calculate an Area! Woohoo!</p>
+
+<!--start the form 'calculator'-->
+<form name="calculator">
+
+   <!--This is the HTML for choosing the height unit-->
+Height <input id = "height" inputmode="numeric" min="0" name="number1" type="number">
+    <select id="heightUnit" name="cards">
+<option selected="selected"value="selectunit">---- Unit ----</option>
+<option value="inches">Inches</option>
+<option value="feet">Feet</option>
+<option value="yards">Yards</option>
+</select>
+
+   <!--these are the error message for height and heightUnit-->
+    <span class="error" id = 'heightError'> Must input a positive number</span><br>
+    <span class="error" id = 'heightUnitError'> Must Select a Unit for Height</span>
+<br>
+
+    <!--This is the HTML for choosing the widthUnit-->
+    Width <input id = "width" inputmode="numeric" min="0" name="number2" type="number">
+<select id="widthUnit" name="cards">
+<option selected="selected"value="selectunit">---- Unit ----</option>
+<option value="inches">Inches</option>
+<option value="feet">Feet</option>
+<option value="yards">Yards</option>
+</select>
+
+    <!--these are the error message for width and widthUnit-->
+    <span class="error" id = 'widthError'> Must input a positive number</span><br>
+    <span class="error" id = 'widthUnitError'> Must Select a Unit for Width</span>
+<br>
+
+    <!--This is the HTML for choosing the outputUnit-->
+<label class="paylabel" for="outputUnit">Select Output Unit:</label>
+<select id="outputUnit" name="cards">
+<option selected="selected"value="selectunit">---- Unit ----</option>
+<option value="inches">Inches</option>
+<option value="feet">Feet</option>
+<option value="yards">Yards</option>
+</select>
+
+    <!--this is the error message for outputUnit-->
+    <span class="error" id = 'outputUnitError'> Must Pick a Unit</span><br>
+    <br/>
+
+    <!--HTML for selecting how many decimal places you want-->
+<p>Select how many decimal places you want the answer to go to:</p>
+<select id="decimalPlaces" name="numbers">
+<option selected="selected"value="One">One</option>
+<option value="Two">Two</option>
+<option value="Three">Three</option>
+<option value="Four">Four</option>
+</select>
+<br>
+<br>
+
+    <!--performs the task on the click of the button 'calculate'-->
+    <input onclick="javascript:calculate();" type="button" value="Calculate">
+<br>
+
+    <!--puts the answer in a paragraph-->
+    <p id="answer"</p>
+
+    <!--error message displayed instead of the answer; there will be another error message with specifics when this is displayed-->
+    <span class="error" id = 'overallError'> See Error Message</span>
+
+</form>
+
+</body>
+
+</html>
